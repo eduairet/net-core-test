@@ -50,7 +50,7 @@ Testing .NET Core with react with this [handy tutorial from Art of Engineer](htt
         }
         ```
 
--   In `.NET 7.0` the startup file is not required and services are added in `Program.cs`
+-   In latest versions of `.NET Core` the startup file is not required and services are added in `Program.cs`
 
     ```CSHARP
     var MyAllowCORS = "_myAllowCORS";
@@ -86,7 +86,7 @@ Testing .NET Core with react with this [handy tutorial from Art of Engineer](htt
     app.Run();
     ```
 
-## Setting Up The Database
+## Backend
 
 -   We'll need to add models for each DB table, they're like the skelleton of our data and are in the [`Models`](./Models/) folder
     -   Simple example
@@ -168,3 +168,46 @@ Testing .NET Core with react with this [handy tutorial from Art of Engineer](htt
              ```
 
 -   And test it using it's route or if you're using `swagger` you can test it there
+-   Check `PUT` `POST` and `DELETE` methods on any of the [controllers](./Controllers/) inside this project
+-   If you want to add a method that accepts images you can do this:
+
+    -   Add the static files handler via dependency injection in [`Program.cs`](./Program.cs)
+
+        ```CSHARP
+        using Microsoft.Extensions.FileProviders;
+        ...
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "Photos")
+            ),
+            RequestPath = "/Photos"
+        });
+        ```
+
+    -   Add an API method to handle the request in any of your controllers
+        ```CSHARP
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+                return new JsonResult(filename);
+            }
+            catch (Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
+        }
+        ```
+
+## Frontend
