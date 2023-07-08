@@ -7,19 +7,24 @@ namespace net_core_test.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public DepartmentController(IConfiguration configuration)
+        public EmployeeController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        // API method to get the data from Department table
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT DepartmentID, DepartmentName FROM dbo.Department";
-            // Get the data into a data table object
+            string query = @"
+                SELECT EmployeeID,
+                       EmployeeName,
+                       Department,
+                       DateOfJoining,
+                       PhotoFileName
+                  FROM dbo.Employee
+            ";
             DataTable table = new DataTable();
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
@@ -27,33 +32,41 @@ namespace net_core_test.Controllers
             using(SqlConnection myCon=new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                using (SqlCommand  myCommand = new SqlCommand(query, myCon))
                 {
                     myReader = myCommand.ExecuteReader();
-                    // Fill the data in the data table
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            // And return the data in JSON format
             return new JsonResult(table);
         }
-        // API method to add data to the Department table
         [HttpPost]
-        public JsonResult Post(DeparmentPost dep)
+        public JsonResult Post(EmployeePost emp)
         {
-            string query = @"INSERT INTO dbo.Department VALUES (@DepartmentName)";
+            string query = @"
+                INSERT INTO dbo.Employee
+                VALUES (
+                    @EmployeeName,
+                    @Department,
+                    @DateOfJoining,
+                    @PhotoFileName
+                )
+            ";
             DataTable table = new DataTable();
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
             SqlDataReader myReader;
-            using (SqlConnection myCon=new SqlConnection(sqlDataSource))
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@DepartmentName", dep.DepartmentName);
+                    myCommand.Parameters.AddWithValue("@EmployeeName", emp.EmployeeName);
+                    myCommand.Parameters.AddWithValue("@Department", emp.Department);
+                    myCommand.Parameters.AddWithValue("@DateOfJoining", DateTime.Now);
+                    myCommand.Parameters.AddWithValue("@PhotoFileName", emp.PhotoFileName);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -62,11 +75,16 @@ namespace net_core_test.Controllers
             }
             return new JsonResult("Added Successfully");
         }
-        // API method to update data in the Department table
         [HttpPut]
-        public JsonResult Put(Department dep)
+        public JsonResult Put(EmployeePut emp)
         {
-            string query = @"UPDATE dbo.Department SET DepartmentName = @DepartmentName WHERE DepartmentID = @DepartmentID";
+            string query = @"
+                UPDATE dbo.Employee
+                   SET EmployeeName = @EmployeeName,
+                       Department = @Department,
+                       PhotoFileName = @PhotoFileName
+                 WHERE EmployeeID = @EmployeeID
+            ";
             DataTable table = new DataTable();
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
@@ -76,8 +94,10 @@ namespace net_core_test.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@DepartmentID", dep.DepartmentID);
-                    myCommand.Parameters.AddWithValue("@DepartmentName", dep.DepartmentName);
+                    myCommand.Parameters.AddWithValue("@EmployeeID", emp.EmployeeID);
+                    myCommand.Parameters.AddWithValue("@EmployeeName", emp.EmployeeName);
+                    myCommand.Parameters.AddWithValue("@Department", emp.Department);
+                    myCommand.Parameters.AddWithValue("@PhotoFileName", emp.PhotoFileName);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -86,11 +106,10 @@ namespace net_core_test.Controllers
             }
             return new JsonResult("Updated Successfully");
         }
-        // API method to delete data in the Department table
-        [HttpDelete]//[HttpDelete("{id}")] This way we can accept the id parameter in the URL
-        public JsonResult Delete(DeparmentDelete dep)
+        [HttpDelete]
+        public JsonResult Delete(EmployeeDelete emp)
         {
-            string query = @"DELETE FROM dbo.Department WHERE DepartmentID = @DepartmentID";
+            string query = @"DELETE FROM dbo.Employee WHERE EmployeeID = @EmployeeID";
             DataTable table = new DataTable();
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
@@ -100,7 +119,7 @@ namespace net_core_test.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@DepartmentID", dep.DepartmentID);
+                    myCommand.Parameters.AddWithValue("@EmployeeID", emp.EmployeeID);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
