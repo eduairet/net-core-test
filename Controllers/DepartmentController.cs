@@ -20,7 +20,8 @@ namespace net_core_test.Controllers
             string query = @"SELECT DepartmentID, DepartmentName FROM dbo.Department";
             // Get the data into a data table object
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
             SqlDataReader myReader;
             using(SqlConnection myCon=new SqlConnection(sqlDataSource))
             {
