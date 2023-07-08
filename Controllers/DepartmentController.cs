@@ -17,9 +17,7 @@ namespace net_core_test.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                SELECT DepartmentID, DepartmentName FROM dbo.Department
-            ";
+            string query = @"SELECT DepartmentID, DepartmentName FROM dbo.Department";
             // Get the data into a data table object
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");

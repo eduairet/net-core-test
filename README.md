@@ -1,6 +1,6 @@
 # .NET Core Test
 
-Testing .NET Core
+Testing .NET Core with react with this [handy tutorial from Art of Engineer](https://youtu.be/ON-Z1iD6Y-c)
 
 ## Important files
 
@@ -50,6 +50,42 @@ Testing .NET Core
         }
         ```
 
+-   In `.NET 7.0` the startup file is not required and services are added in `Program.cs`
+
+    ```CSHARP
+    var MyAllowCORS = "_myAllowCORS";
+    var builder = WebApplication.CreateBuilder(args);
+
+    // CORS configuration
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowCORS,
+                        policy =>
+                        {
+                            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                        });
+    });
+
+    // Add services to the container.
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    // JSON Serializer
+    builder.Services.AddControllers().AddNewtonsoftJson();
+
+    var app = builder.Build();
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+    app.UseCors(MyAllowCORS);
+    app.UseAuthorization();
+    app.MapControllers();
+    app.Run();
+    ```
+
 ## Setting Up The Database
 
 -   We'll need to add models for each DB table, they're like the skelleton of our data and are in the [`Models`](./Models/) folder
@@ -68,23 +104,22 @@ Testing .NET Core
 
     ```JSON
     {
-    "ConnectionStrings": {
-        "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=<DB Name>;Trusted_Connection=True;MultipleActiveResultSets=true",
-        "EmployeeAppCon": "Data Source=.\\<Server>;Initial Catalog=<DB Name>;Integrated Security=true"
-    },
-    "Logging": {
-        "LogLevel": {
-        "Default": "Information",
-        "Microsoft.AspNetCore": "Warning"
-        }
-    },
-    "AllowedHosts": "*"
+        "ConnectionStrings": {
+            "EmployeeAppCon": "Data Source=<Server>;Initial Catalog=<DB Name>;Integrated Security=true"
+        },
+        "Logging": {
+            "LogLevel": {
+                "Default": "Information",
+                "Microsoft.AspNetCore": "Warning"
+            }
+        },
+        "AllowedHosts": "*"
     }
     ```
 
-    -   For this step we need to install another `NuGet` package called `System.Data.SqlClient`
-
 -   Now we can create our controller
+
+    -   For this step we need to install another `NuGet` package called `System.Data.SqlClient`
 
     ```CSHARP
     using Microsoft.AspNetCore.Mvc;
@@ -106,9 +141,7 @@ Testing .NET Core
             [HttpGet]
             public JsonResult Get()
             {
-                string query = @"
-                    SELECT DepartmentID, DepartmentName FROM dbo.Department
-                ";
+                string query = @"SELECT DepartmentID, DepartmentName FROM dbo.Department";
                 // Get the data into a data table object
                 DataTable table = new DataTable();
                 string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
@@ -132,4 +165,4 @@ Testing .NET Core
     }
     ```
 
--   And test it using it's route
+-   And test it using it's route or if you're using `swagger` you can test it there
