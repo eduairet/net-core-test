@@ -1,3 +1,5 @@
+using Microsoft.Extensions.FileProviders;
+
 var MyAllowCORS = "_myAllowCORS";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(MyAllowCORS);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos")
+    ),
+    RequestPath = "/Photos"
+});
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

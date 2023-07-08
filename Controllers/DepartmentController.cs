@@ -24,7 +24,7 @@ namespace net_core_test.Controllers
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
             SqlDataReader myReader;
-            using(SqlConnection myCon=new SqlConnection(sqlDataSource))
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
@@ -48,7 +48,7 @@ namespace net_core_test.Controllers
             string? connectionString = _configuration.GetConnectionString("EmployeeAppCon");
             string sqlDataSource = connectionString ?? throw new Exception("Connection string is null or empty.");
             SqlDataReader myReader;
-            using (SqlConnection myCon=new SqlConnection(sqlDataSource))
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
