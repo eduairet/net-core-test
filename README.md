@@ -211,3 +211,11 @@ Testing .NET Core with react with this [handy tutorial from Art of Engineer](htt
         ```
 
 ## Frontend
+
+-   Create a React App in your repository
+    ```SHELL
+    npx create-react-app frontend --template typescript
+    # Test it
+    cd create-react-app
+    npm start
+    ```
