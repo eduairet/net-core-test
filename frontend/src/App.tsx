@@ -1,13 +1,20 @@
-function App() {
+import { Routes, Route } from "react-router-dom";
+import AppContainer from "./Components/Layout/AppContainer";
+import Home from "./Pages/Home";
+import Employees from "./Pages/Employees";
+import Departments from "./Pages/Departments";
+import NotFound from "./Pages/NotFound";
+
+function App(): JSX.Element {
   return (
-    <div>
-      <header>
-        <h1 className="text-5xl font-bold pb-[3rem]">
-          Employee App
-        </h1>
-        <p>.NET Core and React</p>
-      </header>
-    </div>
+    <AppContainer>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/employees" element={<Employees />} />
+        <Route path="/departments" element={<Departments />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AppContainer>
   );
 }
 
