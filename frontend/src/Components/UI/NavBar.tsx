@@ -21,7 +21,7 @@ export default function NavBar(): JSX.Element {
                             {menuLinks.map(link => (
                                 <li key={`nav-link-${link.id}`}>
                                     <NavLink to={link.link} className={({ isActive, isPending }) =>
-                                        isPending ? cls.pending : isActive ? cls.active : "text-white transition-all"
+                                        isPending ? cls.pending : isActive ? cls.active : "text-white transition-all hover:text-blue-400"
                                     }
                                         aria-current="page">{link.name}</NavLink>
                                 </li>
