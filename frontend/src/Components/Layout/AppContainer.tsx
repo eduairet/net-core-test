@@ -5,5 +5,12 @@ interface AppContainerProps {
 }
 
 export default function AppContainer({ children }: AppContainerProps): JSX.Element {
-    return <div><NavBar />{children}</div>;
+    return (
+        <>
+            <NavBar />
+            <div className="container-fluid pt-5 pb-10">
+                {children}
+            </div>
+        </>
+    );
 }

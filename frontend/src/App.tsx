@@ -5,6 +5,7 @@ import Employees from "./Pages/Employees";
 import Departments from "./Pages/Departments";
 import NotFound from "./Pages/NotFound";
 
+
 function App(): JSX.Element {
   return (
     <AppContainer>

@@ -1,10 +1,6 @@
-const url: string | undefined = process.env.REACT_APP_API_URL;
+import { ApiEndpoints } from "./types";
 
-interface ApiEndpoints {
-    department: string,
-    employee: string,
-    photos: string
-}
+const url: string | undefined = process.env.REACT_APP_API_URL;
 
 const apiEndpoints: ApiEndpoints = {
     department: `${url}/api/Department`,
