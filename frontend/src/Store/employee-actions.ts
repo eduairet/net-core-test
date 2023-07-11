@@ -16,7 +16,7 @@ const fetchEmployees = async () => {
 
 export const getEmployees = () => {
     return async (dispatch: Dispatch<any>) => {
-        dispatch(setLoading({ payload: true }));
+        dispatch(setLoading(true));
         try {
             const employees: Employee[] = await fetchEmployees();
             dispatch(setEmployees(employees));

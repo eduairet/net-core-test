@@ -11,7 +11,20 @@ export const departmentSlice: Slice<DepartmentState, SliceCaseReducers<Departmen
     name: 'department',
     initialState: defaultDepartmentState,
     reducers: {
-        getDepartments: (state, action): void => void(state.departments = action.payload)
+        setLoading(state, action) {
+            state.isLoading = action.payload;
+            state.error = null;
+        },
+        setDepartments(state, action) {
+            state.departments = action.payload;
+            state.isLoading = false;
+            state.error = null;
+        },
+        setError(state, action) {
+            state.departments = [];
+            state.error = action.payload;
+            state.isLoading = false;
+        }
     }
 });
 
