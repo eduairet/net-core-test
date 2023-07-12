@@ -5,7 +5,7 @@ import { departmentActions } from './department-slice';
 
 const { setDepartments, setLoading, setError } = departmentActions;
 
-const fetchDepartments = async () => {
+const fetchDepartments: () => Promise<Department[]> = async () => {
     const response: Response = await fetch(apiEndpoints.department);
     if (!response.ok) {
         throw new Error('There was an error fetching departments!');
@@ -14,7 +14,7 @@ const fetchDepartments = async () => {
     return departments;
 };
 
-export const getDepartments = () => {
+export const getDepartments: () => any = () => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(setLoading(true));
         try {

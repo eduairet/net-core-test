@@ -1,17 +1,20 @@
+import { useContext } from "react";
 import IconButton from "../UI/IconButton";
 import DeleteIcon from "../Icons/DeleteIcon";
 import EditIcon from "../Icons/EditIcon";
+import { ModalContext } from '../../Store/modal-context';
 
 interface DepartmentRowProps {
     name: string;
 }
 
 export default function DepartmentRow({ name }: DepartmentRowProps) {
-    const handleRemove = () => {
-        console.log("Remove");
-    }, handleEdit = () => {
-        console.log("Edit");
-    }
+    const { showModal } = useContext(ModalContext),
+        handleRemove = () => {
+            showModal(<p>Edit</p>);
+        }, handleEdit = () => {
+            showModal(<p>Edit</p>);
+        }
 
     return (
         <tr className="border-b bg-blue-600 border-white">

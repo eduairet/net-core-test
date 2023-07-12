@@ -5,7 +5,7 @@ import { employeeActions } from './employee-slice';
 
 const { setEmployees, setLoading, setError } = employeeActions;
 
-const fetchEmployees = async () => {
+const fetchEmployees: () => Promise<Employee[]> = async () => {
     const response: Response = await fetch(apiEndpoints.employee);
     if (!response.ok) {
         throw new Error('There was an error fetching employees!');
@@ -14,7 +14,7 @@ const fetchEmployees = async () => {
     return employees;
 };
 
-export const getEmployees = () => {
+export const getEmployees: () => any = () => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(setLoading(true));
         try {
