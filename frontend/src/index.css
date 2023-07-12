@@ -12,3 +12,17 @@ body {
   color: white;
   text-align: center;
 }
+
+a {
+  color: rgb(147 197 253);
+  font-weight: 700;
+  transition: color 0.15s ease;
+}
+
+a:is(:hover, :focus) {
+  color: rgb(37 99 235);
+}
+
+a:active {
+  color: rgb(147 197 253);
+}

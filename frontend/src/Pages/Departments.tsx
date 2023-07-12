@@ -1,14 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-import Header from "../Components/UI/Header";
-import Spinner from '../Components/UI/Spinner';
+import { getDepartments } from '../Store/department-actions';
+import { ModalContext } from '../Store/modal-context';
 import BodyContainer from '../Components/Layout/BodyContainer';
 import DepartmentsTable from '../Components/Departments/DepartmentsTable';
-import { getDepartments } from '../Store/department-actions';
+import Header from "../Components/UI/Header";
+import Spinner from '../Components/UI/Spinner';
+import Button from '../Components/UI/Button';
+import DepartmentForm from '../Components/Departments/DepartmentForm';
 
 export default function Departments(): JSX.Element {
-    const dispatch: Dispatch<any> = useDispatch<any>(),
+    const { showModal } = useContext(ModalContext),
+        dispatch: Dispatch<any> = useDispatch<any>(),
         departments = useSelector((state: any) => state.department.departments),
         isLoading = useSelector((state: any) => state.department.isLoading),
         error = useSelector((state: any) => state.department.error);
@@ -21,11 +25,14 @@ export default function Departments(): JSX.Element {
         <>
             <Header title="Departments" />
             <BodyContainer >
-                {isLoading
-                    ? <Spinner />
-                    : departments && departments.length > 0 && !isLoading
-                        ? <DepartmentsTable departments={departments} />
-                        : <p>{error || 'No departments found'}</p>}
+                <div className='mb-8'>
+                    {isLoading
+                        ? <Spinner />
+                        : departments && departments.length > 0 && !isLoading
+                            ? <DepartmentsTable departments={departments} />
+                            : <p>{error || 'No departments found'}</p>}
+                </div>
+                <Button onClick={() => showModal(<DepartmentForm />)}>Add</Button>
             </BodyContainer>
         </>
     );

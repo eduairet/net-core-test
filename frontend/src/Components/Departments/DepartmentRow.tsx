@@ -9,24 +9,19 @@ interface DepartmentRowProps {
 }
 
 export default function DepartmentRow({ name }: DepartmentRowProps) {
-    const { showModal } = useContext(ModalContext),
-        handleRemove = () => {
-            showModal(<p>Edit</p>);
-        }, handleEdit = () => {
-            showModal(<p>Edit</p>);
-        }
+    const { showModal } = useContext(ModalContext);
 
     return (
         <tr className="border-b bg-blue-600 border-white">
             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{name}</td>
             <td className="px-6 py-4 flex items-center space-x-4">
-                <IconButton onClick={handleEdit}>
+                <IconButton onClick={() => showModal(<p>Edit</p>)}>
                     <EditIcon />
                 </IconButton>
-                <IconButton onClick={handleRemove}>
+                <IconButton onClick={() => showModal(<p>Delete</p>)}>
                     <DeleteIcon />
                 </IconButton>
             </td>
         </tr>
-    )
+    );
 }
