@@ -4,6 +4,7 @@ import ModalContainer from '../Components/Overlay/ModalContainer';
 import Backdrop from '../Components/Overlay/Backdrop';
 
 interface ModalContextProps {
+    hidden: boolean;
     showModal: (component: ReactNode) => void;
     hideModal: () => void;
 }
@@ -14,7 +15,7 @@ interface ModalProviderProps {
     children: ReactNode;
 }
 
-const ModalContext = createContext<ModalContextProps>({ showModal() { }, hideModal() { } }),
+const ModalContext = createContext<ModalContextProps>({ hidden: true, showModal() { }, hideModal() { } }),
     Modal: FC<ModalProps> = ({ children }) => {
         const overlay = document.getElementById('overlay');
         if (!overlay) return null;
@@ -24,17 +25,19 @@ const ModalContext = createContext<ModalContextProps>({ showModal() { }, hideMod
         );
     },
     ModalProvider: FC<ModalProviderProps> = ({ children }) => {
-        const [modalContent, setModalContent] = useState<ReactNode | null>(null);
+        const [modalContent, setModalContent] = useState<ReactNode | null>(null),
+            [hidden, setHidden] = useState(true);
 
         const showModal = (component: ReactNode) => {
+            setHidden(false);
             setModalContent(component);
         }, hideModal = () => {
-            console.log('unmount')
+            setHidden(true)
             setModalContent(null);
         };
 
         return (
-            <ModalContext.Provider value={{ showModal, hideModal }}>
+            <ModalContext.Provider value={{ hidden, showModal, hideModal }}>
                 {children}
                 {
                     modalContent ?

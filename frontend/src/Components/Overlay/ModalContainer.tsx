@@ -8,11 +8,11 @@ interface ModalContainerProps {
 }
 
 export default function ModalContainer({ children }: ModalContainerProps) {
-    const { hideModal } = useContext(ModalContext);
+    const { hidden, hideModal } = useContext(ModalContext);
 
     return (
         <div
-            className="rounded bg-appgray fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[auto] w-[100vw] max-w-[500px] overflow-y-auto overflow-x-hidden outline-none drop-shadow-xl transition-opacity"
+            className={`${hidden ? 'hidden opacity-0 ': 'opacity-100 '}rounded bg-appgray fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[auto] w-[100vw] max-w-[500px] overflow-y-auto overflow-x-hidden outline-none drop-shadow-xl transition-opacity`}
             id="employee-app-modal"
             tabIndex={-1}
             aria-labelledby="Employee App Modal"
