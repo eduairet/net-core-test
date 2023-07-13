@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
+import { ModalContext } from '../../Store/modal-context';
+import { getProfilePic } from "../../Services/employee-services";
 import IconButton from "../UI/IconButton";
 import DeleteIcon from "../Icons/DeleteIcon";
 import EditIcon from "../Icons/EditIcon";
-import pic from "../../Assets/anonymous.png";
-import { ModalContext } from '../../Store/modal-context';
 
 interface EmployeeCardProps {
     name: string;
@@ -13,12 +13,21 @@ interface EmployeeCardProps {
 }
 
 export default function EmployeeCard({ name, department, dateOfJoining, photoFileName }: EmployeeCardProps): JSX.Element {
-    const { showModal } = useContext(ModalContext);
+    const { showModal } = useContext(ModalContext),
+        [profilePic, setProfilePic] = useState<string>(''),
+        fetchProfilePic = useCallback( async () => {	
+            const pic: string = await getProfilePic(photoFileName);
+            setProfilePic(pic);
+        }, [photoFileName]);
+
+    useEffect(() => {
+        fetchProfilePic();
+    }, [fetchProfilePic]);
 
     return (
         <div className="m-w-[300px] rounded overflow-hidden shadow-lg bg-blue-600 text-white flex sm:flex-col items-center justify-center">
-            <div className="w-full h-64 bg-blue-600 overflow-hidden shadow-lg sm:mb-2">
-                <img className="object-cover object-center w-full h-full" src={pic || photoFileName} alt={name} />
+            <div className="w-64 h-64 bg-blue-400 overflow-hidden shadow-lg sm:mb-2">
+                <img className="object-cover object-center w-full h-full" src={profilePic} cross-origin="use-credentials" alt={name} />
             </div>
             <div className="w-full pb-8 flex flex-col items-center justify-center">
                 <div className="px-6 py-4 bg-aapgray">

@@ -45,3 +45,16 @@ export const deleteEmployee: (req: DeleteEmployeeRequest) => Promise<{}> = async
     const message: {} = await response.json();
     return message;
 };
+
+export const getProfilePic: (fileName: string) => Promise<string> = async (fileName) => {
+    try {
+        const picUrl = apiEndpoints.photos(fileName);
+        const response: Response = await fetch(picUrl);
+        if (!response.ok) {
+            throw new Error('There was an error fetching the profile picture!');
+        }
+        return response.url;
+    } catch (_) {
+        return apiEndpoints.photos('anonymous.png');
+    }
+}

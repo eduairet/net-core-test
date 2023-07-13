@@ -25,7 +25,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(MyAllowCORS);
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
@@ -33,6 +32,7 @@ app.UseStaticFiles(new StaticFileOptions
     ),
     RequestPath = "/Photos"
 });
+app.UseCors(MyAllowCORS);
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

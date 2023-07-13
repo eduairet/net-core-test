@@ -1,7 +1,7 @@
 export type ApiEndpoints = {
     department: string,
     employee: string,
-    photos: string
+    photos: (fileName: string) => string
 }
 
 export interface UsersState {

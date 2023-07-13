@@ -30,9 +30,11 @@ const ModalContext = createContext<ModalContextProps>({ hidden: true, showModal(
 
         const showModal = (component: ReactNode) => {
             setHidden(false);
+            document.body.style.overflow = 'hidden';
             setModalContent(component);
         }, hideModal = () => {
-            setHidden(true)
+            setHidden(true);
+            document.body.style.overflow = 'unset';
             setModalContent(null);
         };
 
