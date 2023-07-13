@@ -17,6 +17,20 @@ export type Employee = {
     photoFileName: string;
 }
 
+export type AddEmployeeRequest = {
+    employeeName: string;
+    department: string;
+    photoFileName: string;
+}
+
+export type UpdateEmployeeRequest = AddEmployeeRequest & {
+    employeeID: number;
+}
+
+export type DeleteEmployeeRequest = {
+    employeeID: number;
+}
+
 export type EmployeeState = {
     employees: Employee[];
     isLoading: boolean;
@@ -26,6 +40,16 @@ export type EmployeeState = {
 export type Department = {
     departmentID: number;
     departmentName: string;
+}
+
+export type AddDepartmentRequest = {
+    departmentName: string;
+}
+
+export type UpdateDepartmentRequest = Department;
+
+export type DeleteDepartmentRequest = {
+    departmentID: number;
 }
 
 export type DepartmentState = {

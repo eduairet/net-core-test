@@ -1,18 +1,8 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { Department } from '../Utils/types';
-import apiEndpoints from '../Utils/api-endpoints';
+import { getDepartments as fetchDepartments } from '../Services/department-services';
 import { departmentActions } from './department-slice';
-
 const { setDepartments, setLoading, setError } = departmentActions;
-
-const fetchDepartments: () => Promise<Department[]> = async () => {
-    const response: Response = await fetch(apiEndpoints.department);
-    if (!response.ok) {
-        throw new Error('There was an error fetching departments!');
-    }
-    const departments: Department[] = await response.json();
-    return departments;
-};
 
 export const getDepartments: () => any = () => {
     return async (dispatch: Dispatch<any>) => {
