@@ -1,8 +1,8 @@
-import { ReactNode } from "react"
+import { FormEventHandler, ReactNode } from "react";
 
 interface FormProps {
     children: ReactNode;
-    onSubmit: () => void;
+    onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
 export default function Form({ children, onSubmit }: FormProps) {

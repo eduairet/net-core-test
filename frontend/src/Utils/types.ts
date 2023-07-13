@@ -1,3 +1,5 @@
+import { ChangeEvent, FocusEvent } from 'react';
+
 export type ApiEndpoints = {
     department: string,
     employee: string,
@@ -58,3 +60,10 @@ export type DepartmentState = {
     error: string | undefined | null;
 }
 
+export type UseInputResult = {
+    value: string;
+    isFocused: boolean;
+    handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    handleFocus: (event: FocusEvent<HTMLInputElement>) => void;
+    handleBlur: (event: FocusEvent<HTMLInputElement>) => void;
+};
