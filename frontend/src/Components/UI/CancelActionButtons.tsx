@@ -13,7 +13,7 @@ export default function CancelActionButtons({ action, isSubmit, handleAction }: 
 
     return (
         <div
-            className="flex flex-shrink-0 flex-wrap gap-[1rem] items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+            className="flex flex-shrink-0 flex-wrap gap-[1rem] items-center justify-end rounded-b-md pt-8">
             <Button btnStyle="outline" className="bg-appgray" onClick={() => hideModal()}>
                 Cancel
             </Button>

@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FocusEvent } from 'react';
-import { UseInputResult } from '../../Utils/types';
+import { UseInputResult } from '../Utils/types';
 
 const useInput = (initialValue: string = '', validator: RegExp = /^[\p{L}\p{M}\p{P}\p{Z}\p{S}\p{N}]+$/u): UseInputResult => {
     const [value, setValue] = useState(initialValue),

@@ -3,6 +3,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDepartments } from '../Store/department-actions';
 import { ModalContext } from '../Store/modal-context';
+import { FORM } from '../Utils/enums';
 import BodyContainer from '../Components/Layout/BodyContainer';
 import DepartmentsTable from '../Components/Departments/DepartmentsTable';
 import Header from "../Components/UI/Header";
@@ -32,7 +33,7 @@ export default function Departments(): JSX.Element {
                             ? <DepartmentsTable departments={departments} />
                             : <p>{error || 'No departments found'}</p>}
                 </div>
-                <Button onClick={() => showModal(<DepartmentForm />)}>Add</Button>
+                <Button onClick={() => showModal('Add Department', <DepartmentForm type={FORM.CREATE} action='Add' />)}>Add</Button>
             </BodyContainer>
         </>
     );

@@ -3,6 +3,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEmployees } from '../Store/employee-actions';
 import { ModalContext } from '../Store/modal-context';
+import { FORM } from '../Utils/enums';
 import BodyContainer from '../Components/Layout/BodyContainer';
 import EmployeeGrid from '../Components/Employees/EmployeesGrid';
 import Header from "../Components/UI/Header";
@@ -25,12 +26,14 @@ export default function Employees(): JSX.Element {
         <>
             <Header title="Employees" />
             <BodyContainer>
-                {isLoading
-                    ? <Spinner />
-                    : employees && employees.length > 0 && !isLoading
-                        ? <EmployeeGrid employees={employees} />
-                        : <p>{error || 'No employees found'}</p>}
-                <Button onClick={() => showModal(<EmployeeForm />)}>Add</Button>
+                <div className='mb-8'>
+                    {isLoading
+                        ? <Spinner />
+                        : employees && employees.length > 0 && !isLoading
+                            ? <EmployeeGrid employees={employees} />
+                            : <p>{error || 'No employees found'}</p>}
+                </div>
+                <Button onClick={() => showModal('Add Employee', <EmployeeForm type={FORM.CREATE} action='Add' />)}>Add</Button>
             </BodyContainer>
         </>
     );

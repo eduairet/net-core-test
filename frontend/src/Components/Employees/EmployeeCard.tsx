@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { ModalContext } from '../../Store/modal-context';
 import { getProfilePic } from "../../Services/employee-services";
+import { FORM } from "../../Utils/enums";
+import EmployeeForm from "./EmployeeForm";
 import IconButton from "../UI/IconButton";
 import DeleteIcon from "../Icons/DeleteIcon";
 import EditIcon from "../Icons/EditIcon";
@@ -15,7 +17,7 @@ interface EmployeeCardProps {
 export default function EmployeeCard({ name, department, dateOfJoining, photoFileName }: EmployeeCardProps): JSX.Element {
     const { showModal } = useContext(ModalContext),
         [profilePic, setProfilePic] = useState<string>(''),
-        fetchProfilePic = useCallback( async () => {	
+        fetchProfilePic = useCallback(async () => {
             const pic: string = await getProfilePic(photoFileName);
             setProfilePic(pic);
         }, [photoFileName]);
@@ -38,10 +40,10 @@ export default function EmployeeCard({ name, department, dateOfJoining, photoFil
                     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{department}</span>
                 </div>
                 <div className="mx-6 mt-2 flex items-center justify-center gap-3">
-                    <IconButton onClick={() => showModal(<p>Edit</p>)}>
+                    <IconButton onClick={() => showModal('Edit Employee', <EmployeeForm type={FORM.EDIT} action='Edit' />)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => showModal(<p>Delete</p>)}>
+                    <IconButton onClick={() => showModal('Delete Employee', <EmployeeForm type={FORM.DELETE} action='Delete' />)}>
                         <DeleteIcon />
                     </IconButton>
                 </div>
