@@ -1,14 +1,18 @@
-import useInput from "../../Hooks/use-input";
+import { ChangeEventHandler, FocusEventHandler } from "react";
 import InputContainer from "./InputContainer";
 
 interface InputProps {
     id: string;
     label?: string;
     type?: 'text' | 'email' | 'password';
+    value: string;
+    isFocused: boolean;
+    handleChange: ChangeEventHandler<HTMLInputElement>;
+    handleFocus: FocusEventHandler<HTMLInputElement>;
+    handleBlur: FocusEventHandler<HTMLInputElement>;
 }
 
-export default function TextInput({ id, label, type }: InputProps) {
-    const { value, handleChange, handleFocus, handleBlur } = useInput();
+export default function TextInput({ id, label, type, value, handleChange, handleFocus, handleBlur }: InputProps) {
     return (
         <InputContainer>
             <label className="text-sm text-left" htmlFor={id}>{label}</label>
