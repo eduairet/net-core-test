@@ -1,5 +1,9 @@
-import { Department, AddDepartmentRequest, DeleteDepartmentRequest } from "../Utils/types";
+import { Department, AddDepartmentRequest, UpdateDepartmentRequest, DeleteDepartmentRequest } from "../Utils/types";
 import apiEndpoints from '../Utils/api-endpoints';
+
+const headers = {
+    'Content-Type': 'application/json'
+}
 
 export const getDepartments: () => Promise<Department[]> = async () => {
     const response: Response = await fetch(apiEndpoints.department);
@@ -14,6 +18,7 @@ export const addDepartment: (req: AddDepartmentRequest) => Promise<{}> = async (
     const response: Response = await fetch(apiEndpoints.department, {
         method: 'POST',
         body: JSON.stringify(req),
+        headers
     });
     if (!response.ok) {
         throw new Error('There was an error adding the department!');
@@ -22,10 +27,11 @@ export const addDepartment: (req: AddDepartmentRequest) => Promise<{}> = async (
     return message;
 };
 
-export const updateDepartment: (req: AddDepartmentRequest) => Promise<{}> = async (req) => {
+export const updateDepartment: (req: UpdateDepartmentRequest) => Promise<{}> = async (req) => {
     const response: Response = await fetch(apiEndpoints.department, {
         method: 'PUT',
         body: JSON.stringify(req),
+        headers
     });
     if (!response.ok) {
         throw new Error('There was an error updating the department!');
@@ -38,6 +44,7 @@ export const deleteDepartment: (req: DeleteDepartmentRequest) => Promise<{}> = a
     const response: Response = await fetch(apiEndpoints.department, {
         method: 'DELETE',
         body: JSON.stringify(req),
+        headers
     });
     if (!response.ok) {
         throw new Error('There was an error deleting the department!');

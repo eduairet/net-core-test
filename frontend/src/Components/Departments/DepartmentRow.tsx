@@ -7,20 +7,22 @@ import EditIcon from "../Icons/EditIcon";
 import DepartmentForm from "./DepartmentForm";
 
 interface DepartmentRowProps {
+    id: number;
     name: string;
 }
 
-export default function DepartmentRow({ name }: DepartmentRowProps) {
+export default function DepartmentRow({ id, name }: DepartmentRowProps) {
     const { showModal } = useContext(ModalContext);
 
     return (
         <tr className="border-b bg-blue-600 border-white">
+            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{id}</td>
             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{name}</td>
             <td className="px-6 py-4 flex items-center space-x-4">
-                <IconButton onClick={() => showModal('Edit Department', <DepartmentForm type={FORM.EDIT} action="Edit" />)}>
+                <IconButton onClick={() => showModal('Edit Department', <DepartmentForm type={FORM.EDIT} action="Edit" id={id} />)}>
                     <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => showModal('Delete Department', <DepartmentForm type={FORM.DELETE} action="Delete" />)}>
+                <IconButton onClick={() => showModal('Delete Department', <DepartmentForm type={FORM.DELETE} action="Delete" id={id} />)}>
                     <DeleteIcon />
                 </IconButton>
             </td>
