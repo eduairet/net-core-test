@@ -13,7 +13,7 @@ export default function ModalContainer({ title, children }: ModalContainerProps)
 
     return (
         <div
-            className={`${hidden ? 'hidden ' : ''}rounded p-6 bg-appgray fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[auto] w-[100vw] max-w-[500px] overflow-y-auto overflow-x-hidden drop-shadow-xl`}
+            className={`${hidden ? 'hidden ' : ''}rounded p-6 bg-appgray fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] h-[auto] w-[100vw] max-w-[500px] overflow-y-auto overflow-x-hidden drop-shadow-xl animate-fade`}
             id="employee-app-modal"
             tabIndex={-1}
             aria-labelledby="Employee App Modal"

@@ -25,7 +25,7 @@ export default function Departments(): JSX.Element {
     return (
         <>
             <Header title="Departments" />
-            <BodyContainer >
+            <BodyContainer>
                 <div className='mb-8'>
                     {isLoading
                         ? <Spinner />

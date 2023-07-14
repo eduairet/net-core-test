@@ -27,7 +27,7 @@ export default function EmployeeCard({ name, department, dateOfJoining, photoFil
     }, [fetchProfilePic]);
 
     return (
-        <div className="m-w-[300px] rounded overflow-hidden shadow-lg bg-blue-600 text-white flex sm:flex-col items-center justify-center">
+        <div className="m-w-[300px] rounded overflow-hidden shadow-lg bg-blue-600 text-white flex sm:flex-col items-center justify-center animate-fade-up">
             <div className="w-64 h-64 bg-blue-400 overflow-hidden shadow-lg sm:mb-2">
                 <img className="object-cover object-center w-full h-full" src={profilePic} cross-origin="use-credentials" alt={name} />
             </div>

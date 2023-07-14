@@ -7,7 +7,7 @@ interface DepartmentTableProps {
 
 export default function DepartmentsTable({ departments }: DepartmentTableProps) {
     return (
-        <table className="table-auto text-left">
+        <table className="table-auto text-left animate-fade-up">
             <thead className="text-xs text-blue-600 uppercase bg-white">
                 <tr className="px-6 py-3">
                     <th className="px-6 py-3">Name</th>
