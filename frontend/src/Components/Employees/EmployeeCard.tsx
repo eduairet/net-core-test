@@ -8,13 +8,14 @@ import DeleteIcon from "../Icons/DeleteIcon";
 import EditIcon from "../Icons/EditIcon";
 
 interface EmployeeCardProps {
+    id: number;
     name: string;
     department: string;
     dateOfJoining: Date;
     photoFileName: string;
 }
 
-export default function EmployeeCard({ name, department, dateOfJoining, photoFileName }: EmployeeCardProps): JSX.Element {
+export default function EmployeeCard({ id, name, department, dateOfJoining, photoFileName }: EmployeeCardProps): JSX.Element {
     const { showModal } = useContext(ModalContext),
         [profilePic, setProfilePic] = useState<string>(''),
         fetchProfilePic = useCallback(async () => {
@@ -40,10 +41,10 @@ export default function EmployeeCard({ name, department, dateOfJoining, photoFil
                     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{department}</span>
                 </div>
                 <div className="mx-6 mt-2 flex items-center justify-center gap-3">
-                    <IconButton onClick={() => showModal('Edit Employee', <EmployeeForm type={FORM.EDIT} action='Edit' />)}>
+                    <IconButton onClick={() => showModal('Edit Employee', <EmployeeForm type={FORM.EDIT} action='Edit' id={id} />)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => showModal('Delete Employee', <EmployeeForm type={FORM.DELETE} action='Delete' />)}>
+                    <IconButton onClick={() => showModal('Delete Employee', <EmployeeForm type={FORM.DELETE} action='Delete' id={id} />)}>
                         <DeleteIcon />
                     </IconButton>
                 </div>

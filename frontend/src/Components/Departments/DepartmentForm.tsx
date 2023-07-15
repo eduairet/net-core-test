@@ -25,8 +25,8 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
         handleSubmit: FormEventHandler = async (e) => {
             e.preventDefault();
             setLoading(true);
+            const noIdError = () => { throw new Error('No department ID found') };
             try {
-                const noIdError = () => { throw new Error('No department ID found') };
                 setRequestError(null);
                 switch (type) {
                     case FORM.CREATE:

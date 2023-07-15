@@ -12,6 +12,7 @@ export default function EmployeesGrid({ employees }: EmployeesGridProps) {
                 const { employeeID, employeeName, department, dateOfJoining, photoFileName } = employee;
                 return <EmployeeCard
                     key={`employee-card-${employeeID}`}
+                    id={employeeID}
                     name={employeeName}
                     department={department}
                     dateOfJoining={dateOfJoining}
