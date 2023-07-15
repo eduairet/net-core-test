@@ -53,6 +53,18 @@ export const deleteEmployee: (req: DeleteEmployeeRequest) => Promise<{}> = async
     return message;
 };
 
+export const uploadProfilePic: (file: FormData) => Promise<string> = async (file) => {
+    const response: Response = await fetch(`${apiEndpoints.employee}/SaveFile`, {
+        method: 'POST',
+        body: file
+    });
+    if (!response.ok) {
+        throw new Error('There was an error uploading the photo!');
+    }
+    const fileName: string = await response.json();
+    return fileName;
+}
+
 export const getProfilePic: (fileName: string) => Promise<string> = async (fileName) => {
     try {
         const picUrl = apiEndpoints.photos(fileName);

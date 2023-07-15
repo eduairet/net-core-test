@@ -25,9 +25,10 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
         handleSubmit: FormEventHandler = async (e) => {
             e.preventDefault();
             setLoading(true);
+            setRequestError(null);
+            setRequestSuccess(null);
             const noIdError = () => { throw new Error('No department ID found') };
             try {
-                setRequestError(null);
                 switch (type) {
                     case FORM.CREATE:
                         await addDepartment({ departmentName: depNameInput.value });
@@ -48,7 +49,6 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
                 setRequestSuccess('Your request was successful!');
                 dispatch(getDepartments());
             } catch (error) {
-                setRequestSuccess(null);
                 setRequestError('We could not process your request. Please reload the page and try again!');
             }
             setLoading(false);

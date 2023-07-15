@@ -1,9 +1,9 @@
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useState, useEffect, useCallback } from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { getEmployees } from '../../Store/employee-actions';
 import { FORM } from '../../Utils/enums';
-import { addEmployee, updateEmployee, deleteEmployee } from '../../Services/employee-services'
+import { addEmployee, updateEmployee, deleteEmployee, getProfilePic } from '../../Services/employee-services'
 import useInput from '../../Hooks/use-input';
 import Form from "../UI/Form";
 import TextInput from '../UI/TextInput';
@@ -21,12 +21,20 @@ export default function EmployeeForm({ type, action, id }: EmployeeFormProps) {
     const dispatch: Dispatch<any> = useDispatch<any>(),
         empNameInput = useInput(),
         empDepInput = useInput(),
+        [avatar, setAvatar] = useState<string>(''),
+        [photoFileName, setPhotoFileName] = useState<string>('anonymous.png'),
         [loading, setLoading] = useState<boolean>(false),
         [requestSuccess, setRequestSuccess] = useState<string | null>(null),
         [requestError, setRequestError] = useState<string | null>(null),
+        fetchProfilePic = useCallback(async () => {
+            const _avatar: string = await getProfilePic(photoFileName);
+            setAvatar(_avatar);
+        }, [photoFileName]),
         handleSubmit: FormEventHandler = async (e) => {
             e.preventDefault();
             setLoading(true);
+            setRequestSuccess(null);
+            setRequestError(null);
             const employeeName = empNameInput.value,
                 department = empDepInput.value,
                 employeeID = id,
@@ -34,11 +42,11 @@ export default function EmployeeForm({ type, action, id }: EmployeeFormProps) {
             try {
                 switch (type) {
                     case FORM.CREATE:
-                        await addEmployee({ employeeName, department, photoFileName: 'anonymous.png' });
+                        await addEmployee({ employeeName, department, photoFileName });
                         break;
                     case FORM.EDIT:
                         employeeID !== undefined
-                            ? await updateEmployee({ employeeID, employeeName, department, photoFileName: 'anonymous.png' })
+                            ? await updateEmployee({ employeeID, employeeName, department, photoFileName })
                             : noIdError();
                         break;
                     case FORM.DELETE:
@@ -52,12 +60,15 @@ export default function EmployeeForm({ type, action, id }: EmployeeFormProps) {
                 setRequestSuccess('Your request was successful!');
                 dispatch(getEmployees());
             } catch (error) {
-                setRequestSuccess(null);
                 setRequestError('We could not process your request. Please reload the page and try again!');
             }
             setLoading(false);
             return;
         }
+
+    useEffect(() => {
+        fetchProfilePic();
+    }, [fetchProfilePic]);
 
     if (requestSuccess) return <p className=" text-green-500">{requestSuccess}</p>;
     if (requestError) return <p className=" text-red-500">{requestError}</p>;
@@ -67,11 +78,14 @@ export default function EmployeeForm({ type, action, id }: EmployeeFormProps) {
             {
                 type === FORM.CREATE || type === FORM.EDIT
                     ? (
-                        <div className='flex flex-col gap-2'>
-                            <TextInput id="employee-name" label="Employee Name" {...empNameInput} />
-                            <TextInput id="employee-department" label="Department" {...empDepInput} />
-                            <PhotoInput />
-                        </div>
+                        <>
+                            <img className='w-28 h-28 mb-8 mx-auto rounded-full' src={avatar} alt='Employee Avatar' />
+                            <div className='flex flex-col gap-2'>
+                                <TextInput id="employee-name" label="Employee Name" {...empNameInput} />
+                                <TextInput id="employee-department" label="Department" {...empDepInput} />
+                                <PhotoInput setPhotoFileName={setPhotoFileName} />
+                            </div>
+                        </>
                     )
                     : <p>Are you sure you want to delete this department?</p>
 
