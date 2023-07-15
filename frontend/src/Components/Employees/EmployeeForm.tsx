@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getEmployees } from '../../Store/employee-actions';
 import { FORM } from '../../Utils/enums';
 import { addEmployee, updateEmployee, deleteEmployee, getProfilePic } from '../../Services/employee-services'
+import { formValidation } from '../../Utils/validation';
 import useInput from '../../Hooks/use-input';
 import Form from "../UI/Form";
 import TextInput from '../UI/TextInput';
@@ -17,10 +18,12 @@ interface EmployeeFormProps {
     id?: number;
 }
 
+// TODO: add validation for inputs, Selection for department, filtering and sorting
+
 export default function EmployeeForm({ type, action, id }: EmployeeFormProps) {
     const dispatch: Dispatch<any> = useDispatch<any>(),
-        empNameInput = useInput(),
-        empDepInput = useInput(),
+        empNameInput = useInput('', formValidation.employee),
+        empDepInput = useInput('', formValidation.department),
         [avatar, setAvatar] = useState<string>(''),
         [photoFileName, setPhotoFileName] = useState<string>('anonymous.png'),
         [loading, setLoading] = useState<boolean>(false),

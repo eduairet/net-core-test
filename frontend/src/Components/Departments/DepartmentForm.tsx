@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getDepartments } from '../../Store/department-actions';
 import { FORM } from '../../Utils/enums';
 import { addDepartment, updateDepartment, deleteDepartment } from '../../Services/department-services';
+import { formValidation } from '../../Utils/validation';
 import useInput from '../../Hooks/use-input';
 import Form from "../UI/Form";
 import TextInput from '../UI/TextInput';
@@ -18,7 +19,7 @@ interface DepartmentFormProps {
 
 export default function DepartmentForm({ type, action, id }: DepartmentFormProps) {
     const dispatch: Dispatch<any> = useDispatch<any>(),
-        depNameInput = useInput(),
+        depNameInput = useInput('', formValidation.department),
         [loading, setLoading] = useState<boolean>(false),
         [requestSuccess, setRequestSuccess] = useState<string | null>(null),
         [requestError, setRequestError] = useState<string | null>(null),
