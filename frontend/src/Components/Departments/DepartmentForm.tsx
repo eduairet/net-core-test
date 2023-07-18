@@ -23,6 +23,7 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
         [loading, setLoading] = useState<boolean>(false),
         [requestSuccess, setRequestSuccess] = useState<string | null>(null),
         [requestError, setRequestError] = useState<string | null>(null),
+        formIsValid: () => boolean = () => type === FORM.DELETE || (depNameInput.value.length > 0 && depNameInput.isValid),
         handleSubmit: FormEventHandler = async (e) => {
             e.preventDefault();
             setLoading(true);
@@ -30,25 +31,27 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
             setRequestSuccess(null);
             const noIdError = () => { throw new Error('No department ID found') };
             try {
-                switch (type) {
-                    case FORM.CREATE:
-                        await addDepartment({ departmentName: depNameInput.value });
-                        break;
-                    case FORM.EDIT:
-                        id !== undefined
-                            ? await updateDepartment({ departmentID: id, departmentName: depNameInput.value })
-                            : noIdError();
-                        break;
-                    case FORM.DELETE:
-                        id !== undefined
-                            ? await deleteDepartment({ departmentID: id })
-                            : noIdError();
-                        break;
-                    default:
-                        break;
+                if (formIsValid()) {
+                    switch (type) {
+                        case FORM.CREATE:
+                            await addDepartment({ departmentName: depNameInput.value });
+                            break;
+                        case FORM.EDIT:
+                            id !== undefined
+                                ? await updateDepartment({ departmentID: id, departmentName: depNameInput.value })
+                                : noIdError();
+                            break;
+                        case FORM.DELETE:
+                            id !== undefined
+                                ? await deleteDepartment({ departmentID: id })
+                                : noIdError();
+                            break;
+                        default:
+                            break;
+                    }
+                    setRequestSuccess('Your request was successful!');
+                    dispatch(getDepartments());
                 }
-                setRequestSuccess('Your request was successful!');
-                dispatch(getDepartments());
             } catch (error) {
                 setRequestError('We could not process your request. Please reload the page and try again!');
             }
@@ -60,7 +63,6 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
     if (requestError) return <p className=" text-red-500">{requestError}</p>;
 
     return (
-
         <Form onSubmit={handleSubmit}>
             {
                 (type === FORM.CREATE || type === FORM.EDIT)
@@ -69,7 +71,7 @@ export default function DepartmentForm({ type, action, id }: DepartmentFormProps
             }
             {
                 loading ? <div className='pt-4'><Spinner /></div> :
-                    <CancelActionButtons action={action} isSubmit={true} />
+                    <CancelActionButtons action={action} isSubmit={true} disabled={!formIsValid()} />
             }
         </Form>
     )

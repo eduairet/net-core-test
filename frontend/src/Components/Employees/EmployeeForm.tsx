@@ -30,7 +30,7 @@ export default function EmployeeForm({ type, action, id, profilePic }: EmployeeF
         [loading, setLoading] = useState<boolean>(false),
         [requestSuccess, setRequestSuccess] = useState<string | null>(null),
         [requestError, setRequestError] = useState<string | null>(null),
-        formIsValid: () => boolean = () => empNameInput.value.length > 0 && empDepInput.value.length > 0 && empNameInput.isValid && empDepInput.isValid,
+        formIsValid: () => boolean = () => type === FORM.DELETE || (empNameInput.value.length > 0 && empDepInput.value.length > 0 && empNameInput.isValid && empDepInput.isValid),
         handleSubmit: FormEventHandler = async (e) => {
             e.preventDefault();
             setLoading(true);
