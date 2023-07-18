@@ -38,10 +38,10 @@ export default function EmployeeCard({ id, name, department, dateOfJoining, phot
                     <p className="text-blue-100 text-base">{new Date(dateOfJoining).toDateString()}</p>
                 </div>
                 <div className="px-6 pt-2 pb-2 mb-4">
-                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{department}</span>
+                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{department || 'Unknown'}</span>
                 </div>
                 <div className="mx-6 mt-2 flex items-center justify-center gap-3">
-                    <IconButton onClick={() => showModal('Edit Employee', <EmployeeForm type={FORM.EDIT} action='Edit' id={id} />)}>
+                    <IconButton onClick={() => showModal('Edit Employee', <EmployeeForm type={FORM.EDIT} action='Edit' id={id} profilePic={profilePic} />)}>
                         <EditIcon />
                     </IconButton>
                     <IconButton onClick={() => showModal('Delete Employee', <EmployeeForm type={FORM.DELETE} action='Delete' id={id} />)}>

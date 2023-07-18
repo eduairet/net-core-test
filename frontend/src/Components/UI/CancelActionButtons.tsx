@@ -5,10 +5,11 @@ import Button from "./Button";
 interface CancelActionButtonsProps {
     action: string;
     isSubmit?: boolean,
+    disabled?: boolean,
     handleAction?: () => void
 }
 
-export default function CancelActionButtons({ action, isSubmit, handleAction }: CancelActionButtonsProps) {
+export default function CancelActionButtons({ action, isSubmit, disabled, handleAction }: CancelActionButtonsProps) {
     const { hideModal } = useContext(ModalContext);
 
     return (
@@ -17,7 +18,7 @@ export default function CancelActionButtons({ action, isSubmit, handleAction }: 
             <Button btnStyle="outline" className="bg-appgray" onClick={() => hideModal()}>
                 Cancel
             </Button>
-            <Button type={isSubmit ? 'submit' : 'button'} onClick={handleAction ? handleAction : () => null}>
+            <Button type={isSubmit ? 'submit' : 'button'} onClick={handleAction ? handleAction : () => null} disabled={disabled || false}>
                 {action}
             </Button>
         </div>

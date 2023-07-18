@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler } from "react";
+import { ChangeEventHandler, FocusEventHandler, useEffect, useState } from "react";
 import InputContainer from "./InputContainer";
 
 interface InputProps {
@@ -6,26 +6,36 @@ interface InputProps {
     label?: string;
     type?: 'text' | 'email' | 'password';
     value: string;
-    isFocused: boolean;
+    isValid: boolean;
     handleChange: ChangeEventHandler<HTMLInputElement>;
-    handleFocus: FocusEventHandler<HTMLInputElement>;
     handleBlur: FocusEventHandler<HTMLInputElement>;
 }
 
-export default function TextInput({ id, label, type, value, handleChange, handleFocus, handleBlur }: InputProps) {
+export default function TextInput({ id, label, type, value, isValid, handleChange, handleBlur }: InputProps) {
+    const [validationMessage, setValidationMessage] = useState<string | null>(null),
+        { length } = value;
+
+    useEffect(() => {
+        if (!isValid) {
+            setValidationMessage(length === 0 ? `${label} is required!` : `${label} is invalid!`);
+        } else {
+            setValidationMessage(null);
+        }
+    }, [label, isValid, length]);
+
     return (
         <InputContainer>
             <label className="text-sm text-left" htmlFor={id}>{label}</label>
             <input
-                className="text-appgray font-[500] border-2 border-blue-500 rounded-md py-1 px-4 my-2 w-full"
+                className={`${isValid ? 'text-appgray border-blue-500' : 'text-red-500 border-red-500'} font-[500] border-2 rounded-md py-1 px-4 my-2 w-full`}
                 id={id}
                 name={id}
                 value={value}
                 type={type || 'text'}
                 onChange={handleChange}
-                onFocus={handleFocus}
                 onBlur={handleBlur}
             />
+            {!isValid && <p className="text-red-500 text-xs text-right">{validationMessage}</p>}
         </InputContainer>
     );
 };

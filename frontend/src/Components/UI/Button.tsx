@@ -15,8 +15,8 @@ interface ButtonProps {
 }
 
 const classes: ButtonClasses = {
-    outline: 'border border-blue-600 hover:bg-blue-700 hover:text-white',
-    solid: 'bg-blue-600 hover:bg-blue-700 text-white'
+    outline: 'border border-blue-600 hover:enabled:bg-blue-700 hover:enabled:text-white',
+    solid: 'bg-blue-600 hover:enabled:bg-blue-700 text-white'
 } 
 
 export default function Button({
@@ -30,7 +30,7 @@ export default function Button({
     return (
         <button
             type={type || "button"}
-            className={`${classes[btnStyle || 'solid']} py-2 px-4 rounded w-[5rem] transition-color ${className || ''}`.trim()}
+            className={`${classes[btnStyle || 'solid']} py-2 px-4 rounded w-[5rem] transition-color disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`.trim()}
             disabled={disabled || false}
             onClick={onClick}
         >

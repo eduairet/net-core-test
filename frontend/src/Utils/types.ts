@@ -62,9 +62,7 @@ export type DepartmentState = {
 
 export type UseInputResult = {
     value: string;
-    isFocused: boolean;
-    isValid: () => boolean;
+    isValid: boolean;
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    handleFocus: (event: FocusEvent<HTMLInputElement>) => void;
     handleBlur: (event: FocusEvent<HTMLInputElement>) => void;
 };
