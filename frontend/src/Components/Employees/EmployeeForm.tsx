@@ -23,8 +23,6 @@ interface EmployeeFormProps {
     profilePic?: string;
 }
 
-// TODO: Filtering and Sorting
-
 export default function EmployeeForm({ type, action, id, profilePic }: EmployeeFormProps) {
     const dispatch: Dispatch<any> = useDispatch<any>(),
         empNameInput = useInput('', formValidation.employee),
