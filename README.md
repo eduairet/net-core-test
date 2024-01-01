@@ -1,6 +1,6 @@
 # .NET Core Test
 
-Testing .NET Core with react with this [handy tutorial from Art of Engineer](https://youtu.be/ON-Z1iD6Y-c)
+Testing .NET Core with react with this [handy tutorial from Art of Engineer](https://youtu.be/ON-Z1iD6Y-c).
 
 ## Important files
 
